@@ -1,0 +1,58 @@
+<html>
+<head>
+<link rel="stylesheet" href="http://luigifreitas.me/bootstrap/css/bootstrap.min.css">
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="http://luigifreitas.me/bootstrap/js/bootstrap.min.js"></script>
+<title>Quorra Project</title>
+</head>
+<body>
+
+
+    
+<center>
+    <br><br><br><br><br><br>
+    <h2 id="callbackText">Type a Command</h2>
+    <br><br>
+    <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <input type="textbox" class="form-control" id="code"/>
+        <br>
+        <input type="submit" class="btn btn-info" id="submit"/>
+    </div>
+    </div>
+</center>
+    
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+            var socket = io();
+
+            $( "#submit" ).click(function() {
+                var singleValues = $( "#code" ).val();
+                socket.emit('commandLine', singleValues);
+            });
+
+            
+            socket.on('callback', function(data){
+                document.getElementById("callbackText").innerHTML = data;
+            });
+
+             socket.on('connect_failed', function () {
+                document.getElementById("callbackText").style.color="red";
+            });
+            socket.on('disconnect', function () {
+                document.getElementById("callbackText").style.color="red";
+            });
+            socket.on('error', function () {
+                document.getElementById("callbackText").style.color="red";
+            });
+            socket.on('stop', function () {
+                document.getElementById("callbackText").style.color="red";
+            });
+            socket.on('connect', function () {
+                document.getElementById("callbackText").style.color="green";
+            });
+            
+    </script>
+</body>
+</html>
